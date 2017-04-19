@@ -13,3 +13,15 @@
     * Recipe List
     * Recipe Item
     *Recipe Detail
+
+```
+npm install --save bootstrap
+``` 
+
+__.angular-cli.json__
+```
+"styles": [
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "styles.css"
+      ],
+```
