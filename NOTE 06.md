@@ -36,3 +36,41 @@ loadedFeature = 'recipes';
     this.loadedFeature = feature;
   }
 ```
+---
+## recipe list and item property binding
+
+recipe-list.component.html
+```html
+<div class="row">
+  <div class="col-xs-12">
+    <button class="btn btn-success">New Recipe</button>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-xs-12">
+    <app-recipe-item 
+      *ngFor="let recipeEl of recipes"
+      [recipe]="recipeEl"></app-recipe-item>
+  </div>
+</div>
+```
+recipe-item.component.html
+```html
+<a href="#" class="list-group-item clearfix">
+  <div class="pull-left">
+    <h4 class="list-group-item-heading">{{ recipe.name}}</h4>
+    <p class="list-group-item-text">{{ recipe.description }}</p>
+  </div>
+  <span class="pull-right">
+    <img 
+      [src]="recipe.imagePath" 
+      alt="{{ recipe.name }}" 
+      class="img-responsive" style="max-height: 50px;">
+  </span>
+</a>
+```
+recipe-item.component.ts
+```javascript
+@Input() recipe: Recipe;
+```
