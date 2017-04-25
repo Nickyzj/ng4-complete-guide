@@ -74,3 +74,60 @@ recipe-item.component.ts
 ```javascript
 @Input() recipe: Recipe;
 ```
+---
+## select recipe property and event binding
+
+recipe-item.component.html
+```html
+<a href="#" class="list-group-item clearfix"
+  (click)="onSelected()">
+```
+recipe-item.component.ts
+```javascript
+@Output() recipeSelected = new EventEmitter<void>();
+
+onSelected() {
+    this.recipeSelected.emit();
+  }
+```
+recipe-list.component.html
+```html
+<app-recipe-item 
+      *ngFor="let recipeEl of recipes"
+      [recipe]="recipeEl"
+      (recipeSelected)="onRecipeSelected(recipeEl)"></app-recipe-item>
+```
+
+recipe-list.component.ts
+```javascript
+@Output() recipeWasSelected = new EventEmitter<Recipe>();
+
+onRecipeSelected(recipeEl: Recipe) {
+    this.recipeWasSelected.emit(recipeEl);
+  }
+```
+recipes.component.html
+```html
+<app-recipe-list
+      (recipeWasSelected)="selectedRecipe = $event"></app-recipe-list>
+```
+recipes.component.ts
+```javascript
+selectedRecipe: Recipe;
+```
+recipes.component.html
+```html
+<app-recipe-detail
+      *ngIf="selectedRecipe else infoText"
+      [recipe]="selectedRecipe"></app-recipe-detail>
+      <ng-template #infoText>
+        <p>Please select a Recipe</p>
+      </ng-template>
+```
+
+recipe-detail.component.ts
+```javascript
+@Input() recipe: Recipe;
+```
+
+
