@@ -129,5 +129,76 @@ recipe-detail.component.ts
 ```javascript
 @Input() recipe: Recipe;
 ```
+---
+## Shopping list from add ingredient
 
+shopping-edit.component.html
+```html
+<div class="row">
+  <div class="col-xs-12">
+    <form action="">
+      <div class="row">
+        <div class="col-sm-5 form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" class="form-control" #nameInput>
+        </div>
+        <div class="col-sm-2 form-group">
+          <label for="amount">Amount</label>
+          <input type="number" id="amount" class="form-control" #amountInput>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <button class="btn btn-success" type="submit" (click)="onAddItem()">Add</button>
+          <button class="btn btn-danger" type="button">Delete</button>
+          <button class="btn btn-primary" type="button">Clear</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+```
 
+shopping-edit.component.ts
+```javascript
+import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+import { Ingredient } from '../../shared/ingredient.model';
+
+@Component({
+  selector: 'app-shopping-edit',
+  templateUrl: './shopping-edit.component.html',
+  styleUrls: ['./shopping-edit.component.css']
+})
+export class ShoppingEditComponent implements OnInit {
+  @ViewChild('nameInput') nameInputRef: ElementRef;
+  @ViewChild('amountInput') amountInputRef: ElementRef;
+  @Output() ingredientAdded = new EventEmitter<Ingredient>();
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+  onAddItem() {
+    console.log('helllll');
+    const ingName = this.nameInputRef.nativeElement.value;
+    const ingAmount = this.amountInputRef.nativeElement.value;
+    const newIngredient = new Ingredient(ingName, ingAmount);
+    this.ingredientAdded.emit(newIngredient);
+  }
+
+}
+```
+
+shopping-list.component.html
+```html
+<app-shopping-edit
+      (ingredientAdded)="onIngredientAdded($event)"></app-shopping-edit>
+```
+
+shopping-list.component.ts
+```javascript
+onIngredientAdded(ingredient: Ingredient) {
+    this.ingredients.push(ingredient);
+  }
+```
